@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	 <div id="map_canvas"></div>
+    <script>
+    	var villes = 
+            [
+                ['Yeumbeul', 14.767871, -17.366512,"","80","28","Pylone","TNT", "TDS", "100", "18", "0/90/180/270", "D"],
+                ['Guediawaye', 14.7828199, -17.376013,"","80","39","Immeuble","TNT", "TDS", "115", "16", "45/1352/315", "D"],
+                ['Hann', 14.734469, -17.426386,"","50","64","Pylone","TNT", "TDS", "80", "18", "0/90/180/270", "D"],
+                ['Pikine', 14.7589446, -17.3937536,"","50","16","Pylone","TNT", "TDS", "81", "24", "0/90/180/270", "ND"],
+                ['Niaga', 14.814349, -17.249890,"","50","8","Pylone","TNT", "TDS", "210", "24", "0/90/180/270", "ND"],
+            //##################################################################
+                ['Goree', 14.6678596, -17.3989282,"","50","91","N/A","TNT", "TDS", "215", "22", "0/90/180/270", "ND"],
+                ['Ouakam', 14.723712, -17.494233,"","80","37","Pylone","TNT", "TDS", "130", "18", "0/90/180/270", "D"],
+                ['Rufisque', 14.71554, -17.270929,"","45","36","N/A","TNT", "TDS", "218", "16", "0/90/180/270", "D"],
+                ['Point E', 14.695958, -17.463659,"","50","49","Pylone","TNT", "TDS", "150", "20", "0/90/180/270", "D"],
+                ['boulevard du général de gaule', 14.701615, -17.458144,"","50","23","Pylone","TNT", "TDS", "216", "24", "0/90/180/270", "D"],
+            //#############################################################
+            ];
+
+function initMap() {
+    var mapOptions = {
+        zoom: 12,
+        center: new google.maps.LatLng(14.7645042, -17.3660286),
+        //mapTypeId: google.maps.MapTypeId.ROADMAP,
+        //disableDefaultUI: true,
+        //scrollwheel: false,
+        styles : [
+                {
+                    "featureType": "landscape.natural",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        },
+                        {
+                            "color": "#e0efef"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        },
+                        {
+                            "hue": "#1900ff"
+                        },
+                        {
+                            "color": "#c0e8e8"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "lightness": 100
+                        },
+                        {
+                            "visibility": "simplified"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "labels",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit.line",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        },
+                        {
+                            "lightness": 700
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "color": "#7dcdcd"
+                        }
+                    ]
+                }
+            ]
+    }
+    var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+    setMarkers(map, villes);
+}
+
+function setMarkers(map, locations) {
+    //var image = 'factory.png';
+    for (var i = 0; i < locations.length; i++) {
+        var villes = locations[i];
+        var myLatLng = new google.maps.LatLng(villes[1], villes[2]);
+        console.log(myLatLng);
+        var infoWindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            animation: google.maps.Animation.DROP,
+            //icon: image
+        });
+        (function (i) {
+            google.maps.event.addListener(marker, "click", function () {
+                var villes = locations[i];
+                infoWindow.close();
+                infoWindow.setContent(
+                  "<div id='boxcontent' style='font-family:Calibri'><span  style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>"  + " : "  + villes[0] +"</strong> </div></table>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[1] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[2] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[3] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[4] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[5] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[6] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[7] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[8] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[9] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[10] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[11] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[12] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[13] + "</strong> </div>"
+                + "<div id='boxcontent' style='font-family:Calibri'><span style='font-size:12px;color:#333'>Ceci est un test.</span> <strong style='color:green'>" + " : " + villes[14] + "</strong> </div>"
+                );
+                infoWindow.open(map, this);
+            });
+        })(i);
+    }
+}
+	</script>
+
+
+	<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDByRWaA6BzFV9BjRQmRxWXez9H4-ZiR-s&callback=initMap">
+    </script>
+<!-- INTEGRER LES FICHIER INDISPENSABLE DES FICHIERS BOOSTRAAP-->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
